@@ -1,4 +1,4 @@
-
+#
 # custom >>>
 unset HISTFILE
 export HISTFILESIZE=0

@@ -6,8 +6,6 @@
 **/*.code-workspace
 **/.vscode
 **/.devcontainer
-**/.x-vscode
-**/.x-devcontainer
 **/.editorconfig
 
 **/*.egg-info/

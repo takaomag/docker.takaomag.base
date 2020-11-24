@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "mutantdino.resourcemonitor",
+    "streetsidesoftware.code-spell-checker",
+    "christian-kohler.path-intellisense",
+    "donjayamanne.githistory",
+    "eamodio.gitlens",
+    "mechatroner.rainbow-csv",
+    "foxundermoon.shell-format",
+    "chrmarti.regex",
+    "editorconfig.editorconfig"
+  ],
+  "unwantedRecommendations": []
+}

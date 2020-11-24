@@ -68,7 +68,7 @@
       "id": "DockerBuild.from_image",
       "type": "promptString",
       "description": "FROM image ?",
-      "default": "archlinux/base",
+      "default": "archlinux/archlinux:latest",
       "password": false
     }
   ]

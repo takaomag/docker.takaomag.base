@@ -1,0 +1,51 @@
+{
+  "files.associations": {
+    "**/.vscode/.d/settings.*.json": "jsonc",
+    "**/.vscode/.d/tasks.*.json": "jsonc",
+    "**/.vscode/.d/launch.*.json": "jsonc",
+    "**/.vscode/.d/extensions.*.json": "jsonc",
+    "**/.devcontainer/.d/devcontainer.*.json": "jsonc",
+    ".editorconfig.*": "ini"
+  },
+  "files.insertFinalNewline": true,
+  "files.exclude": {},
+  "files.watcherExclude": {
+    "**/.devcontainer/var/**": true,
+    "**/.devcontainer/tmp/**": true
+  },
+  "search.exclude": {
+    "**/.devcontainer/var/**": true,
+    "**/.devcontainer/tmp/**": true
+  },
+  "[csv]": {
+    "editor.wordWrap": "on"
+  },
+  "[dockerfile]": {
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": false
+  },
+  "[json]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2
+  },
+  "[jsonc]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2
+  },
+  "cSpell.words": [
+    "archlinux",
+    "buildkit",
+    "buildx",
+    "devcontainer",
+    "editorconfig",
+    "nofile",
+    "paccache",
+    "pacman",
+    "psql",
+    "rustfmt",
+    "seccomp",
+    "takaomag",
+    "tmpl",
+    "toolchain"
+  ]
+}
