@@ -115,7 +115,10 @@ for u in 'root'; do
   ! ls -A /etc/skel/.xprofile >/dev/null 2>&1 || cp -apr /etc/skel/.xprofile "${d}/."
   chown -R "${u}":"${u}" "${d}"
 done
-mkdir -p --mode=0700 /etc/skel/.config
+mkdir -p --mode=0700 \
+  /etc/skel/.config \
+  /etc/skel/.config/gcloud \
+  /etc/skel/.aws
 
 cat /mnt/x-dockerbuild-resource/etc/locale.gen > /etc/locale.gen
 chmod 644 /etc/locale.gen
