@@ -32,10 +32,10 @@ ARG A_AMD64_PACMAN_MIRRORLIST_URL="https://www.archlinux.org/mirrorlist/?country
 ARG A_INSTALL_BASE_PACKAGES_CMD="pacman -S --needed --noprogressbar --noconfirm base base-devel pacman-contrib sudo openssh vi which --ignore linux,man-db,man-pages"
 ARG A_EXTRA_PACKAGES="vi git"
 
-# LABEL maintainer "takaomag <takaomag@users.noreply.github.com>"
+LABEL maintainer "takaomag <takaomag@users.noreply.github.com>"
 
-# ENV \
-#   container=docker
+ENV \
+  container=docker
 
 RUN --mount=type=bind,source=resource/,target=/mnt/x-dockerbuild-resource <<EODF
 echo "2016-03-03-0" > /dev/null
