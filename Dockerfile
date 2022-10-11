@@ -191,7 +191,6 @@ sed --in-place -E 's/^#\s*NoProgressBar\s*/NoProgressBar/g' /etc/pacman.conf
 sed --in-place -E 's/^#\s*CheckSpace\s*/CheckSpace/g' /etc/pacman.conf
 sed --in-place -E 's/^#\s*VerbosePkgLists\s*/VerbosePkgLists/g' /etc/pacman.conf
 sed --in-place -E 's/^#\s*(ParallelDownloads\s*=.+)/\1/g' /etc/pacman.conf
-cat "${SCRIPT_DIR}/etc/pacman.conf" | tee -a /etc/pacman.conf >/dev/null
 if ! grep -E '^NoExtract\s*=' /etc/pacman.conf;then
   cat /mnt/x-dockerbuild-resource/etc/pacman.conf >> /etc/pacman.conf
 fi
