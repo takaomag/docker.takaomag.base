@@ -188,7 +188,8 @@ fi
 
 chmod 644 /etc/pacman.d/mirrorlist
 sed --in-place -E 's/^#\s*NoProgressBar\s*/NoProgressBar/g' /etc/pacman.conf
-sed --in-place -E 's/^#\s*CheckSpace\s*/CheckSpace/g' /etc/pacman.conf
+# sed --in-place -E 's/^#\s*CheckSpace\s*/CheckSpace/g' /etc/pacman.conf
+sed --in-place -E 's/^CheckSpace\s*/#CheckSpace/g' /etc/pacman.conf
 sed --in-place -E 's/^#\s*VerbosePkgLists\s*/VerbosePkgLists/g' /etc/pacman.conf
 sed --in-place -E 's/^#\s*(ParallelDownloads\s*=.+)/\1/g' /etc/pacman.conf
 if ! grep -E '^NoExtract\s*=' /etc/pacman.conf;then
