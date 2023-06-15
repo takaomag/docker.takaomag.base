@@ -279,11 +279,16 @@ msg_success "[SUCCESS] Configure /root/.ssh"
 msg_info "[INFO] Install [yay]"
 if [[ "${TARGETARCH}" == 'amd64' ]];then
   cd /var/tmp
-  curl --fail --silent --location --retry 5 https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz | tar xz
-  chown -R x-aur-helper:x-aur-helper yay-bin
-  cd yay-bin
+  # curl --fail --silent --location --retry 5 https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz | tar xz
+  # chown -R x-aur-helper:x-aur-helper yay-bin
+  # cd yay-bin
+  # sudo -u x-aur-helper makepkg --syncdeps --install --clean --rmdeps --needed --noprogressbar --noconfirm
+  # cd .. && rm -rf yay-bin
+  curl --fail --silent --location --retry 5 https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz | tar xz
+  chown -R x-aur-helper:x-aur-helper yay
+  cd yay
   sudo -u x-aur-helper makepkg --syncdeps --install --clean --rmdeps --needed --noprogressbar --noconfirm
-  cd .. && rm -rf yay-bin
+  cd .. && rm -rf yay
 elif [[ "${TARGETARCH}" == 'arm64' ]];then
   # sudo -u x-aur-helper git clone https://aur.archlinux.org/yay.git /var/tmp/yay
   # cd /var/tmp/yay
