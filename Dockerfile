@@ -104,14 +104,14 @@ mkdir -p --mode=0700 /etc/skel/.profile.d
 cat /mnt/x-dockerbuild-resource/etc/skel/.lesskey > /etc/skel/.lesskey
 chmod 0644 /etc/skel/.lesskey
 
-lesskey -o /etc/skel/.less /etc/skel/.lesskey
-chmod 0644 /etc/skel/.less*
+# lesskey -o /etc/skel/.less /etc/skel/.lesskey
+# chmod 0644 /etc/skel/.less*
 
 for u in 'root'; do
   d="$(getent passwd ${u} | cut -d: -f6)"
   ! ls -A /etc/skel/.bash* >/dev/null 2>&1 || cp -apr /etc/skel/.bash* "${d}/."
   ! ls -A /etc/skel/.profile* >/dev/null 2>&1 || cp -apr /etc/skel/.profile* "${d}/."
-  ! ls -A /etc/skel/.less* >/dev/null 2>&1 || cp -apr /etc/skel/.less* ${d}/.
+  # ! ls -A /etc/skel/.less* >/dev/null 2>&1 || cp -apr /etc/skel/.less* ${d}/.
   ! ls -A /etc/skel/.xprofile >/dev/null 2>&1 || cp -apr /etc/skel/.xprofile "${d}/."
   chown -R "${u}":"${u}" "${d}"
 done
