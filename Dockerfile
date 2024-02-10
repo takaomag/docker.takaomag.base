@@ -59,14 +59,21 @@ update_alarm_pacman_mirrorlist() {
 # Arch Linux ARM repository mirrorlist
 #
 HEND
-  echo -e '\n### United States' >>/etc/pacman.d/mirrorlist
-  awk '/^#+\s+[Uu]nited [Ss]tates\s*/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 1);}' /etc/pacman.d/.org.mirrorlist >>/etc/pacman.d/mirrorlist
   echo -e '\n### Japan' >>/etc/pacman.d/mirrorlist
   awk '/^#+\s+[Jj]apan\s*/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 1);}' /etc/pacman.d/.org.mirrorlist >>/etc/pacman.d/mirrorlist
-  echo -e '\n### Australia' >>/etc/pacman.d/mirrorlist
-  awk '/^#+\s+[Aa]ustralia\s*/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 1);}' /etc/pacman.d/.org.mirrorlist >>/etc/pacman.d/mirrorlist
+
+  echo -e '\n### Singapore' >>/etc/pacman.d/mirrorlist
+  awk '/^#+\s+[Ss]ingapore\s*/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 1);}' /etc/pacman.d/.org.mirrorlist >>/etc/pacman.d/mirrorlist
+
+  echo -e '\n### United States' >>/etc/pacman.d/mirrorlist
+  awk '/^#+\s+[Uu]nited [Ss]tates\s*/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 1);}' /etc/pacman.d/.org.mirrorlist >>/etc/pacman.d/mirrorlist
+
   echo -e '\n### United Kingdom' >>/etc/pacman.d/mirrorlist
   awk '/^#+\s+[Uu]nited [Kk]ingdom\s*/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 1);}' /etc/pacman.d/.org.mirrorlist >>/etc/pacman.d/mirrorlist
+
+  echo -e '\n### Australia' >>/etc/pacman.d/mirrorlist
+  awk '/^#+\s+[Aa]ustralia\s*/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 1);}' /etc/pacman.d/.org.mirrorlist >>/etc/pacman.d/mirrorlist
+
   sed --in-place -E 's/^#+\s*Server\s*=/Server =/g' /etc/pacman.d/mirrorlist
 }
 
