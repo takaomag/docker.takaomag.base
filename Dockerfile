@@ -187,11 +187,12 @@ elif [[ "${TARGETARCH}" == 'arm64' ]];then
 fi
 
 chmod 644 /etc/pacman.d/mirrorlist
-sed --in-place -E 's/^#\s*NoProgressBar\s*/NoProgressBar/g' /etc/pacman.conf
-# sed --in-place -E 's/^#\s*CheckSpace\s*/CheckSpace/g' /etc/pacman.conf
-sed --in-place -E 's/^CheckSpace\s*/#CheckSpace/g' /etc/pacman.conf
-sed --in-place -E 's/^#\s*VerbosePkgLists\s*/VerbosePkgLists/g' /etc/pacman.conf
-sed --in-place -E 's/^#\s*(ParallelDownloads\s*=.+)/\1/g' /etc/pacman.conf
+sed --in-place -E 's/^#\s*NoProgressBar\s*/NoProgressBar/' /etc/pacman.conf
+# sed --in-place -E 's/^#\s*CheckSpace\s*/CheckSpace/' /etc/pacman.conf
+sed --in-place -E 's/^CheckSpace\s*/#CheckSpace/' /etc/pacman.conf
+sed --in-place -E 's/^#\s*VerbosePkgLists\s*/VerbosePkgLists/' /etc/pacman.conf
+sed --in-place -E 's/^#\s*(ParallelDownloads\s*=.+)/\1/' /etc/pacman.conf
+sed --in-place -E '/^ParallelDownloads/a DisableDownloadTimeout' /etc/pacman.conf
 if ! grep -E '^NoExtract\s*=' /etc/pacman.conf;then
   cat /mnt/x-dockerbuild-resource/etc/pacman.conf >> /etc/pacman.conf
 fi
