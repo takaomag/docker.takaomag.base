@@ -16,7 +16,7 @@ FROM ${A_FROM_IMAGE}
 ## OS component of TARGETPLATFORM
 # ARG TARGETOS
 ## architecture component of TARGETPLATFORM
-ARG TARGETARCH
+# ARG TARGETARCH
 ## variant component of TARGETPLATFORM
 # ARG TARGETVARIANT
 ##platform of the node performing the build.
@@ -28,9 +28,12 @@ ARG TARGETARCH
 ## variant component of BUILDPLATFORM
 # ARG BUILDVARIANT
 
-ARG A_AMD64_PACMAN_MIRRORLIST_URL="https://www.archlinux.org/mirrorlist/?country=US&country=JP&protocol=https&use_mirror_status=on"
-ARG A_INSTALL_BASE_PACKAGES_CMD="pacman -S --needed --noprogressbar --noconfirm base base-devel pacman-contrib sudo openssh vi which --ignore linux,man-db,man-pages"
-ARG A_EXTRA_PACKAGES="vi git"
+ARG \
+  TARGETOS \
+  TARGETARCH \
+  A_AMD64_PACMAN_MIRRORLIST_URL="https://www.archlinux.org/mirrorlist/?country=US&country=JP&protocol=https&use_mirror_status=on" \
+  A_INSTALL_BASE_PACKAGES_CMD="pacman -S --needed --noprogressbar --noconfirm base base-devel pacman-contrib sudo openssh vi which --ignore linux,man-db,man-pages" \
+  A_EXTRA_PACKAGES="vi git"
 
 LABEL maintainer "takaomag <takaomag@users.noreply.github.com>"
 
@@ -44,11 +47,14 @@ source /mnt/x-dockerbuild-resource/opt/local/bin/x-set-shell-fonts-env.sh
 export TERM=dumb
 export LANG='en_US.UTF-8'
 
-if [[ -z "${TARGETARCH}" ]]; then
-  msg_error "[ERROR] `TARGETARCH` is not set. Enable buildkit."
+if [[ -z "${TARGETOS}" ]] || [[ -z "${TARGETARCH}" ]]; then
+  msg_error "[ERROR] `TARGETOS` or `TARGETARCH` is not set. Enable buildkit."
   echo
   exit 1
 fi
+
+# export GOOS=${TARGETOS}
+# export GOARCH=${TARGETARCH}
 
 update_alarm_pacman_mirrorlist() {
   ## `tw.mirror.archlinuxarm.org`がよくアクセス不能になる。
@@ -205,7 +211,7 @@ if ! grep -E '^NoExtract\s*=' /etc/pacman.conf;then
 fi
 chmod 644 /etc/pacman.conf
 # [[ -e /etc/mtab ]] || ln -sf /proc/mounts /etc/mtab
-pacman -Syyu --noprogressbar --noconfirm
+pacman -Syyuu --needed --noprogressbar --noconfirm
 
 if [[ "${TARGETARCH}" == 'arm64' ]] && [[ -e /etc/pacman.d/mirrorlist.pacnew ]]; then
   mv /etc/pacman.d/mirrorlist.pacnew /etc/pacman.d/mirrorlist
@@ -285,28 +291,22 @@ msg_success "[SUCCESS] Configure /root/.ssh"
 
 
 msg_info "[INFO] Install [yay]"
+cd /var/tmp
+## Download, build and install yay or yay-bin
 if [[ "${TARGETARCH}" == 'amd64' ]];then
-  cd /var/tmp
-  # curl --fail --silent --location --retry 5 https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz | tar xz
-  # chown -R x-aur-helper:x-aur-helper yay-bin
-  # cd yay-bin
-  # sudo -u x-aur-helper makepkg --syncdeps --install --clean --rmdeps --needed --noprogressbar --noconfirm
-  # cd .. && rm -rf yay-bin
-  curl --fail --silent --location --retry 5 https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz | tar xz
-  chown -R x-aur-helper:x-aur-helper yay
-  cd yay
+  curl --fail --silent --location --retry 5 https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz | tar xz
+  chown -R x-aur-helper:x-aur-helper yay-bin
+  cd yay-bin
   sudo -u x-aur-helper makepkg --syncdeps --install --clean --rmdeps --needed --noprogressbar --noconfirm
-  cd .. && rm -rf yay
+  cd .. && rm -rf yay-bin
 elif [[ "${TARGETARCH}" == 'arm64' ]];then
-  # sudo -u x-aur-helper git clone https://aur.archlinux.org/yay.git /var/tmp/yay
-  # cd /var/tmp/yay
-  cd /var/tmp
   curl --fail --silent --location --retry 5 https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz | tar xz
   chown -R x-aur-helper:x-aur-helper yay
   cd yay
   sudo -u x-aur-helper makepkg --syncdeps --install --clean --rmdeps --needed --noprogressbar --noconfirm
   cd .. && rm -rf yay
 fi
+
 rm -rf /var/lib/x-aur-helper/.cache/go-build
 for u in 'root' 'x-aur-helper'; do
   d="$(getent passwd ${u} | cut -d: -f6)"
@@ -318,11 +318,13 @@ HEND
   chown -R "${u}":"${u}" "${d}/.config"
 done
 cp -apr /root/.config/yay /etc/skel/.config/.
+
+yay -Syyuu --needed --noprogressbar --noconfirm --removemake --cleanafter
 msg_success "[SUCCESS] Install [yay]"
 
 
 msg_info "[INFO] Install [${A_EXTRA_PACKAGES}]"
-sudo -u x-aur-helper yay -S --needed --removemake --cleanafter --noprogressbar --noconfirm ${A_EXTRA_PACKAGES}
+yay -S --needed --noprogressbar --noconfirm --removemake --cleanafter ${A_EXTRA_PACKAGES}
 msg_success "[SUCCESS] Install [${A_EXTRA_PACKAGES}]"
 
 
