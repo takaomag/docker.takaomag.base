@@ -292,27 +292,20 @@ msg_success "[SUCCESS] Configure /root/.ssh"
 
 msg_info "[INFO] Install [yay]"
 cd /var/tmp
-## ## Download, build and install yay or yay-bin
-## if [[ "${TARGETARCH}" == 'amd64' ]];then
-##   curl --fail --silent --location --retry 5 https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz | tar xz
-##   chown -R x-aur-helper:x-aur-helper yay-bin
-##   cd yay-bin
-##   sudo -u x-aur-helper makepkg --syncdeps --install --clean --rmdeps --needed --noprogressbar --noconfirm
-##   cd .. && rm -rf yay-bin
-## elif [[ "${TARGETARCH}" == 'arm64' ]];then
-##   curl --fail --silent --location --retry 5 https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz | tar xz
-##   chown -R x-aur-helper:x-aur-helper yay
-##   cd yay
-##   sudo -u x-aur-helper makepkg --syncdeps --install --clean --rmdeps --needed --noprogressbar --noconfirm
-##   cd .. && rm -rf yay
-## fi
-
-## yay-bin
-curl --fail --silent --location --retry 5 https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz | tar xz
-chown -R x-aur-helper:x-aur-helper yay-bin
-cd yay-bin
-sudo -u x-aur-helper makepkg --syncdeps --install --clean --rmdeps --needed --noprogressbar --noconfirm
-cd .. && rm -rf yay-bin
+## Download, build and install yay or yay-bin
+if [[ "${TARGETARCH}" == 'amd64' ]];then
+  curl --fail --silent --location --retry 5 https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz | tar xz
+  chown -R x-aur-helper:x-aur-helper yay-bin
+  cd yay-bin
+  sudo -u x-aur-helper makepkg --syncdeps --install --clean --rmdeps --needed --noprogressbar --noconfirm
+  cd .. && rm -rf yay-bin
+elif [[ "${TARGETARCH}" == 'arm64' ]];then
+  curl --fail --silent --location --retry 5 https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz | tar xz
+  chown -R x-aur-helper:x-aur-helper yay
+  cd yay
+  sudo -u x-aur-helper makepkg --syncdeps --install --clean --rmdeps --needed --noprogressbar --noconfirm
+  cd .. && rm -rf yay
+fi
 
 rm -rf /var/lib/x-aur-helper/.cache/go-build
 for u in 'root' 'x-aur-helper'; do
