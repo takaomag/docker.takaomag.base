@@ -35,7 +35,7 @@ ARG \
   A_INSTALL_BASE_PACKAGES_CMD="pacman -S --needed --noprogressbar --noconfirm base base-devel pacman-contrib sudo openssh vi which --ignore linux,man-db,man-pages" \
   A_EXTRA_PACKAGES="vi git"
 
-LABEL maintainer "takaomag <takaomag@users.noreply.github.com>"
+LABEL maintainer="takaomag <takaomag@users.noreply.github.com>"
 
 ENV \
   container=docker
