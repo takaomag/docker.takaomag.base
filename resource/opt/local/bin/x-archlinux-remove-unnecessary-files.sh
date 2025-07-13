@@ -111,6 +111,8 @@ if [ ${RREMOVE_TMP} == "true" ]; then
   find /var/tmp -mindepth 1 -delete || true
 fi
 
-history -c && history -w
+if [[ -n "${HISTFILE}" ]]; then
+  history -c && history -w
+fi
 
 msg_success "[SUCCESS] Remove unnecessary files"
