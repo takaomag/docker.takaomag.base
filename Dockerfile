@@ -29,11 +29,12 @@ FROM ${A_FROM_IMAGE}
 # ARG BUILDVARIANT
 
 ARG \
-  TARGETOS \
   TARGETARCH \
   A_AMD64_PACMAN_MIRRORLIST_URL="https://www.archlinux.org/mirrorlist/?country=US&country=JP&protocol=https&use_mirror_status=on" \
   A_INSTALL_BASE_PACKAGES_CMD="pacman -S --needed --noprogressbar --noconfirm base base-devel pacman-contrib sudo openssh vi which --ignore linux,man-db,man-pages" \
   A_EXTRA_PACKAGES="vi git"
+
+#  TARGETOS \
 
 LABEL maintainer="takaomag <takaomag@users.noreply.github.com>"
 
@@ -47,8 +48,8 @@ source /mnt/x-dockerbuild-resource/opt/local/bin/x-set-shell-fonts-env.sh
 export TERM=dumb
 export LANG='en_US.UTF-8'
 
-if [[ -z "${TARGETOS}" ]] || [[ -z "${TARGETARCH}" ]]; then
-  msg_error "[ERROR] `TARGETOS` or `TARGETARCH` is not set. Enable buildkit."
+if [[ -z "${TARGETARCH}" ]]; then
+  msg_error "[ERROR] `TARGETARCH` is not set. Enable buildkit."
   echo
   exit 1
 fi
