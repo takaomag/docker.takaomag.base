@@ -49,7 +49,7 @@ export TERM=dumb
 export LANG='en_US.UTF-8'
 
 if [[ -z "${TARGETARCH}" ]]; then
-  msg_error "[ERROR] `TARGETARCH` is not set. Enable buildkit."
+  msg_error "[ERROR] TARGETARCH is not set. Enable buildkit."
   echo
   exit 1
 fi
@@ -58,7 +58,7 @@ fi
 # export GOARCH=${TARGETARCH}
 
 update_alarm_pacman_mirrorlist() {
-  ## `tw.mirror.archlinuxarm.org`がよくアクセス不能になる。
+  ## tw.mirror.archlinuxarm.org がよくアクセス不能になる。
   ## https://archlinuxarm.org/about/mirrors
   cp /etc/pacman.d/mirrorlist /etc/pacman.d/.org.mirrorlist
   cat <<-'HEND' >/etc/pacman.d/mirrorlist
