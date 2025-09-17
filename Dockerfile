@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile-upstream:master-labs
+## syntax=docker/dockerfile-upstream:master-labs
 ## syntax=docker/dockerfile:1.3-labs
 
 # takaomag/base
