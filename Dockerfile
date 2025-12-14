@@ -31,8 +31,8 @@ FROM ${A_FROM_IMAGE}
 ARG \
   TARGETARCH \
   A_AMD64_PACMAN_MIRRORLIST_URL="https://www.archlinux.org/mirrorlist/?country=US&country=JP&protocol=https&use_mirror_status=on" \
-  A_INSTALL_BASE_PACKAGES_CMD="pacman -S --needed --noprogressbar --noconfirm base base-devel pacman-contrib sudo openssh vi which --ignore linux,man-db,man-pages" \
-  A_EXTRA_PACKAGES="vi git"
+  A_INSTALL_BASE_PACKAGES_CMD="pacman -S --needed --noprogressbar --noconfirm base base-devel pacman-contrib sudo openssh vi which git --ignore linux,man-db,man-pages" \
+  A_EXTRA_PACKAGES="vi"
 
 #  TARGETOS \
 
@@ -207,6 +207,8 @@ sed --in-place -E 's/^CheckSpace\s*/#CheckSpace/' /etc/pacman.conf
 sed --in-place -E 's/^#\s*VerbosePkgLists\s*/VerbosePkgLists/' /etc/pacman.conf
 sed --in-place -E 's/^#\s*(ParallelDownloads\s*=.+)/\1/' /etc/pacman.conf
 sed --in-place -E '/^ParallelDownloads/a DisableDownloadTimeout' /etc/pacman.conf
+sed --in-place -E 's/^#\s*DisableSandboxFilesystem\s*/DisableSandboxFilesystem/' /etc/pacman.conf
+sed --in-place -E 's/^#\s*DisableSandboxSyscalls\s*/DisableSandboxSyscalls/' /etc/pacman.conf
 if ! grep -E '^NoExtract\s*=' /etc/pacman.conf;then
   cat /mnt/x-dockerbuild-resource/etc/pacman.conf >> /etc/pacman.conf
 fi
@@ -294,24 +296,30 @@ msg_success "[SUCCESS] Configure /root/.ssh"
 msg_info "[INFO] Install [yay]"
 cd /var/tmp
 ## Download, build and install yay or yay-bin
-if [[ "${TARGETARCH}" == 'amd64' ]];then
-  # curl --fail --silent --location --retry 5 https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz | tar xz
-  # chown -R x-aur-helper:x-aur-helper yay-bin
-  # cd yay-bin
-  # sudo -u x-aur-helper makepkg --syncdeps --install --clean --rmdeps --needed --noprogressbar --noconfirm
-  # cd .. && rm -rf yay-bin
-  curl --fail --silent --location --retry 5 https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz | tar xz
-  chown -R x-aur-helper:x-aur-helper yay
-  cd yay
-  sudo -u x-aur-helper makepkg --syncdeps --install --clean --rmdeps --needed --noprogressbar --noconfirm
-  cd .. && rm -rf yay
-elif [[ "${TARGETARCH}" == 'arm64' ]];then
-  curl --fail --silent --location --retry 5 https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz | tar xz
-  chown -R x-aur-helper:x-aur-helper yay
-  cd yay
-  sudo -u x-aur-helper makepkg --syncdeps --install --clean --rmdeps --needed --noprogressbar --noconfirm
-  cd .. && rm -rf yay
-fi
+# if [[ "${TARGETARCH}" == 'amd64' ]];then
+#   # curl --fail --silent --location --retry 5 https://aur.archlinux.org/cgit/aur.git/snapshot/yay-bin.tar.gz | tar xz
+#   # chown -R x-aur-helper:x-aur-helper yay-bin
+#   # cd yay-bin
+#   # sudo -u x-aur-helper makepkg --syncdeps --install --clean --rmdeps --needed --noprogressbar --noconfirm
+#   # cd .. && rm -rf yay-bin
+#   curl --fail --silent --location --retry 5 https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz | tar xz
+#   chown -R x-aur-helper:x-aur-helper yay
+#   cd yay
+#   sudo -u x-aur-helper makepkg --syncdeps --install --clean --rmdeps --needed --noprogressbar --noconfirm
+#   cd .. && rm -rf yay
+# elif [[ "${TARGETARCH}" == 'arm64' ]];then
+#   curl --fail --silent --location --retry 5 https://aur.archlinux.org/cgit/aur.git/snapshot/yay.tar.gz | tar xz
+#   chown -R x-aur-helper:x-aur-helper yay
+#   cd yay
+#   sudo -u x-aur-helper makepkg --syncdeps --install --clean --rmdeps --needed --noprogressbar --noconfirm
+#   cd .. && rm -rf yay
+# fi
+
+git clone https://aur.archlinux.org/yay.git
+chown -R x-aur-helper:x-aur-helper yay
+cd yay
+sudo -u x-aur-helper makepkg --syncdeps --install --clean --rmdeps --needed --noprogressbar --noconfirm
+cd .. && rm -rf yay
 
 rm -rf /var/lib/x-aur-helper/.cache/go-build
 for u in 'root' 'x-aur-helper'; do
