@@ -207,8 +207,10 @@ sed --in-place -E 's/^CheckSpace\s*/#CheckSpace/' /etc/pacman.conf
 sed --in-place -E 's/^#\s*VerbosePkgLists\s*/VerbosePkgLists/' /etc/pacman.conf
 sed --in-place -E 's/^#\s*(ParallelDownloads\s*=.+)/\1/' /etc/pacman.conf
 sed --in-place -E '/^ParallelDownloads/a DisableDownloadTimeout' /etc/pacman.conf
-sed --in-place -E 's/^#\s*DisableSandboxFilesystem\s*/DisableSandboxFilesystem/' /etc/pacman.conf
-sed --in-place -E 's/^#\s*DisableSandboxSyscalls\s*/DisableSandboxSyscalls/' /etc/pacman.conf
+if [[ "${TARGETARCH}" == 'arm64' ]];then
+  sed --in-place -E 's/^#\s*DisableSandboxFilesystem\s*/DisableSandboxFilesystem/' /etc/pacman.conf
+  sed --in-place -E 's/^#\s*DisableSandboxSyscalls\s*/DisableSandboxSyscalls/' /etc/pacman.conf
+fi
 if ! grep -E '^NoExtract\s*=' /etc/pacman.conf;then
   cat /mnt/x-dockerbuild-resource/etc/pacman.conf >> /etc/pacman.conf
 fi
