@@ -157,12 +157,8 @@ chmod 600 /root/.gnupg/gpg.conf
 systemd-sysusers /mnt/x-dockerbuild-resource/etc/sysusers.d/60-x-base.conf
 mkdir --mode=700 /var/lib/x-aur-helper
 chown -R x-aur-helper:x-aur-helper /var/lib/x-aur-helper
-sudo -u x-aur-helper gpg --list-keys
-sudo -u x-aur-helper tee -a /var/lib/x-aur-helper/.gnupg/gpg.conf <<-'HEND' >/dev/null
-
-# custom
-keyserver-options auto-key-retrieve
-HEND
+su --shell /bin/bash - x-aur-helper -c 'gpg --list-keys'
+su --shell /bin/bash - x-aur-helper -c 'echo -e "\n# custom\nkeyserver-options auto-key-retrieve" >> /var/lib/x-aur-helper/.gnupg/gpg.conf' >/dev/null
 chmod 600 /var/lib/x-aur-helper/.gnupg/gpg.conf
 msg_success "[SUCCESS] Configure system users"
 
