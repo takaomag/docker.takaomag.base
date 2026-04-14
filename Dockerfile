@@ -31,7 +31,7 @@ FROM ${A_FROM_IMAGE}
 ARG \
   TARGETARCH \
   A_AMD64_PACMAN_MIRRORLIST_URL="https://www.archlinux.org/mirrorlist/?country=US&country=JP&protocol=https&use_mirror_status=on" \
-  A_INSTALL_BASE_PACKAGES_CMD="pacman -S --needed --noprogressbar --noconfirm base base-devel pacman-contrib sudo openssh vi which git --ignore linux,man-db,man-pages" \
+  A_INSTALL_BASE_PACKAGES_CMD="pacman -S --needed --noprogressbar --noconfirm base base-devel pacman-contrib sudo openssh vim which git --ignore linux,man-db,man-pages" \
   A_EXTRA_PACKAGES="vi"
 
 #  TARGETOS \

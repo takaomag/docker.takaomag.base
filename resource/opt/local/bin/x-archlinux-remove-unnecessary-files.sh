@@ -89,7 +89,7 @@ fi
 
 # pacman -Scc --noconfirm
 # rm -rf /var/cache/pacman/pkg/*
-find /var/cache/pacman/pkg -iname "*.part" -delete
+find /var/cache/pacman/pkg -iname "*.part" -delete -ignore_readdir_race
 # paccache --remove --uninstalled --keep ${PACCACHE_KEEP_NUM} >/dev/null 2>&1 || true
 paccache --remove --keep ${PACCACHE_KEEP_NUM}
 paccache --remove --uninstalled --keep ${PACCACHE_KEEP_NUM}
@@ -107,8 +107,8 @@ rm -rf /root/.ivy2
 rm -rf /root/.gradle
 
 if [ ${RREMOVE_TMP} == "true" ]; then
-  find /tmp -mindepth 1 -delete || true
-  find /var/tmp -mindepth 1 -delete || true
+  find /tmp -mindepth 1 -delete -ignore_readdir_race || true
+  find /var/tmp -mindepth 1 -delete -ignore_readdir_race || true
 fi
 
 if [[ -n "${HISTFILE}" ]]; then
